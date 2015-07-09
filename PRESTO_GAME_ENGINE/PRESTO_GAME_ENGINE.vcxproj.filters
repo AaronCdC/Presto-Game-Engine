@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="DEBUGGER">
+      <UniqueIdentifier>{7ebd8c16-c883-479c-9c71-b656c681b3c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DEBUGGER\HEADERS">
+      <UniqueIdentifier>{f8d610b1-b397-45f2-a308-6f47ab91da1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DEBUGGER\SOURCE">
+      <UniqueIdentifier>{903c7e63-0a40-4471-9541-e7498ecc7b68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RESMANAGER">
+      <UniqueIdentifier>{79e98e47-99f3-4091-b5f1-bab1039282ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DEBUGGER\debugger.h">
+      <Filter>DEBUGGER\HEADERS</Filter>
+    </ClInclude>
+    <ClInclude Include="DEBUGGER\instructionset.h">
+      <Filter>DEBUGGER\HEADERS</Filter>
+    </ClInclude>
+    <ClInclude Include="RESMANAGER\resmanager.h">
+      <Filter>RESMANAGER</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DEBUGGER\debugger.cpp">
+      <Filter>DEBUGGER\SOURCE</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>DEBUGGER\SOURCE</Filter>
+    </ClCompile>
+    <ClCompile Include="DEBUGGER\instructionset.cpp">
+      <Filter>DEBUGGER\SOURCE</Filter>
+    </ClCompile>
+    <ClCompile Include="RESMANAGER\resmanager.cpp">
+      <Filter>RESMANAGER</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PRESTO_GAME_ENGINE.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
