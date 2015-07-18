@@ -12,6 +12,8 @@ class InstructionSet
 {
 public:
 
+	//Since I don't need the 16 bit registers, doing every
+	//32-bit register into a single INT is faster.
     #pragma pack(push, 1)
     struct cpuregs
     {
@@ -22,6 +24,7 @@ public:
     }CPUREGS;
     #pragma pack(pop)
 
+	//Processor flags. This tells us what the processor has.
     struct procFlags
     {
         bool PYSICAL_ADDRESS_E;
@@ -34,8 +37,12 @@ public:
         bool MULTIPROCESSOR_CAPABLE;
 
     }PFLAGS;
+
+	//CPU brand and model information
     char cpusignature[0x41];
-    unsigned int cpuinfo[4];
+    //unsigned int cpuinfo[4];
+
+	//This is a parameter that is different for each CPU and we need to know.
     unsigned int maxleaf;
     InstructionSet();
 private:

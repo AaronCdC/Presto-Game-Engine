@@ -4,22 +4,28 @@ InstructionSet::InstructionSet()
 {
         //cpusignature = (char*)malloc(0x40);
         //memset(cpusignature,0x0,0x40);
+
+#ifdef _DEBUG
         unsigned int* REGSPTR = (unsigned int*)&CPUREGS;
+#endif
+
         memset(&CPUREGS, 0x0, sizeof(CPUREGS));
 		memset(&cpusignature, 0x0, 0x43);
         __cpuid((int*)&CPUREGS, 0);
         maxleaf = 0x80000000 + CPUREGS.EAX;
-    //if(maxleaf < 0x80000004)
+		//if(maxleaf < 0x80000004)
         //return; //Unsupported brand string
 
+	//Get the CPU brand name and model
     for(int x = 0x80000002; x <= maxleaf; x++)
     {
 
         __cpuid((int*)&CPUREGS, x);
-        memcpy((char*)(cpusignature + (x - 0x80000002)*16), (char*)&CPUREGS, sizeof(unsigned int)*4);
+        memcpy((char*)(cpusignature + (x - 0x80000002)*sizeof(unsigned int)*4), (char*)&CPUREGS, sizeof(unsigned int)*4);
 
     }
 
+	//Get the CPU information
 	__cpuid((int*)&CPUREGS, 0x80000001);
 
     std::bitset<sizeof(unsigned int)*8> EDXBITS(CPUREGS.EDX);

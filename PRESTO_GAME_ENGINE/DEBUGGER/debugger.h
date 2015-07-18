@@ -26,6 +26,8 @@
 #define info_type_warning "Warning"
 #define info_type_error "Error"
 
+extern bool __DEBUG__MODE__;
+
 class GameDebugger {
 private:
     SYSTEM_INFO SystemInfo;
@@ -33,6 +35,10 @@ private:
     unsigned long long int fc1;
     unsigned long long int fc2;
 	int fframe;
+	int lsecond;
+	unsigned int mfps;
+	unsigned int pfps;
+	//bool measuring_fps;
 public:
 	InstructionSet cpuInstInfo;
     GameDebugger();
@@ -43,6 +49,8 @@ public:
     void GetGLInfo(ALLEGRO_DISPLAY* mydisplay);
     void GetD3DInfo(ALLEGRO_DISPLAY* mydisplay);
     struct tm * GetDateAndTime();
+	int MeasureFPS();
+	int GetFPS();
     void Log(const char* message, const char* itype, ...);
     void CountFrame();
     ~GameDebugger();

@@ -18,6 +18,8 @@ typedef struct ASSET {
 }ASSET;
 #pragma pack(pop)
 
+extern bool __DEBUG__MODE__;
+
 class ResourceManager {
 private:
 	

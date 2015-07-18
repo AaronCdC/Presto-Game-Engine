@@ -7,8 +7,11 @@ ALLEGRO_TIMER *maintimer;
 ALLEGRO_AUDIO_STREAM *music;
 ALLEGRO_EVENT events;
 GameDebugger MainDebugger;
+ResourceManager resManager;
 
- ALLEGRO_BITMAP* test;
+ALLEGRO_BITMAP* test;
+
+bool __DEBUG__MODE__;
 
 bool exitprogram = false;
 bool redraw = false;
@@ -18,7 +21,7 @@ bool ImageFail = false;
 
 void ResourceLoading()
 {
-	test = al_load_bitmap("TEST_ASSETS\\nep.png");
+	test = resManager.LoadBitmapA("TEST_ASSETS\\nep.png", "Test asset");
 	if(!test)
 		MainDebugger.Log("Error loading test asset.","Error");
 	return;
@@ -31,9 +34,9 @@ void ev_listener()
 	while(!exitprogram)
 	{
 
-				//Wait for an event to occur
+	//Wait for an event to occur
 	eventTrigger = al_get_next_event(ev_queue, &events);
-			/* REGION - EVENT HANDLER - */
+	/* REGION - EVENT HANDLER - */
 
 	if(eventTrigger)
 	{
@@ -72,27 +75,29 @@ void ev_listener()
 				al_set_target_bitmap(al_get_backbuffer(display));
 				al_clear_to_color(al_map_rgb(64,64,128));
 				/* DRAWING ROUTINES HERE */
-	/*-------------------------------------------------------------------------------*/
-			//Draw draw and draw more stuff
+	/*-------------Draw draw and draw more stuff-----------------------------------*/
 				al_set_target_bitmap(al_get_backbuffer(display));
 				al_draw_bitmap(test, 0, 0, 0);
 
+
+				/* End Draw On Screen Region*/
+	/*-------------------------------------------------------------------------------*/
 				//Swap buffers
 				al_flip_display();
 				//Clear redraw flag and wait for next frame
 				redraw = false;
+				//Count rendered frames and FPS
 				MainDebugger.CountFrame();
 			}
-			/* End Draw On Screen Region*/
-
 	}
-	MainDebugger.Log("Last frame count.", info_type_message);
+	if(__DEBUG__MODE__)
+		MainDebugger.Log("Last frame count.", info_type_message);
 	return;
 }
 
 void game_end()
 {
-		//Dispose all objects (bitmaps, timers, sounds, etc)
+	//Dispose all objects (bitmaps, timers, sounds, etc)
 	al_destroy_timer(maintimer);
 	if(_ENABLE_SOUND_ && !AudioFail){
 		al_detach_audio_stream(music);
@@ -109,6 +114,15 @@ void game_end()
 int main(int args, char** argv)
 {
 	srand (time(NULL));
+
+	//Debug mode can be switch ON/OFF through the core.h configuration header.
+	//However, if the executable has the _DEBUG flag defined, it's always
+	//set to ON, disgregarding what the header says.
+#ifndef _DEBUG
+	bool __DEBUG__MODE__ = _ENABLE_DEBUG_MODE_;
+#else
+	bool __DEBUG__MODE__ = true;
+#endif
 
 	if(!al_init()) {
         MainDebugger.Log("Failed to initialize Allegro! (Null pointer returned by al_init function).", info_type_error);
@@ -149,15 +163,16 @@ int main(int args, char** argv)
 	//Sets the title of the window
 	al_set_window_title(display, _DISPLAYNAME_);
 
+	//Gets information relevant to the computer's graphic renderer
 	MainDebugger.GetSystemSpecs(display);
 
-		//Create an event queue
+	//Create an event queue
 	ev_queue = al_create_event_queue();
 
 	MainDebugger.Log("Presto Game Engine Version %i . %i", info_type_message, ENGINEVERSION__MAJOR_, ENGINEVERSION__MINOR_);
-#if _DEBUG
-	MainDebugger.Log("DEBUG flag is enabled.",info_type_message);
-#endif
+
+	if(__DEBUG__MODE__)
+		MainDebugger.Log("DEBUG flag is enabled.",info_type_message);
 
 		/* EVENT SYSTEM SETUP */
 	//Creates the main game timer
@@ -169,6 +184,7 @@ int main(int args, char** argv)
 	al_register_event_source(ev_queue, al_get_timer_event_source(maintimer));
 	al_register_event_source(ev_queue, al_get_keyboard_event_source());
 
+	/* "Random" blending function required for transparent images */
     al_set_blender(ALLEGRO_ADD, ALLEGRO_ALPHA, ALLEGRO_INVERSE_ALPHA);
 	//End
 
