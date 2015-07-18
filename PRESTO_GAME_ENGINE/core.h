@@ -1,6 +1,5 @@
 /*********************************************************************/
 /*                    - PRESTO: 2D GAME ENGINE -                     */
-/*                     By Ninjihaku (c) 2015                         */
 /*                   SOME RIGHTS MAY BE RESERVED                     */
 /*                                                                   */
 /*    This piece of software is freeware and open source. You, under */
