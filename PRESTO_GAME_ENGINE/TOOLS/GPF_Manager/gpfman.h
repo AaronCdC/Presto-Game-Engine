@@ -1,14 +1,16 @@
 #ifndef __GPF_MAN__
 #define __GPF_MAN__
 
+/* NAMEENTRY: Structure used for file names inside the DB */
 #pragma pack(push, 1)
 typedef struct nameentry
 {
-	char NAME[16];
-	char EXT[3];
+	char NAME[17];
+	char EXT[4];
 }NAMEENTRY;
 #pragma pack(pop)
 
+/* DATAPACKAGE: Structure with information related to a package file */
 #pragma pack(push, 1)
 typedef struct _dp
 {
@@ -22,6 +24,7 @@ typedef struct _dp
 }DATAPACKAGE;
 #pragma pack(pop)
 
+/* FILEENTRY: Structure with information about a single file */
 #pragma pack(push, 1)
 typedef struct fileentry
 {
