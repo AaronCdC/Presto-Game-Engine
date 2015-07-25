@@ -170,12 +170,16 @@ int SearchPkgFile(char* name)
 }
 
 /* Routine to insert a file inside a package file, and update the database */
+//TODO:
+//Update file count
+//Maybe remove LD? Seems unneeded. Search instead for file entries with same pkgid.
 void InsertFile(char* file, char* dest_pkg, char* name, char* ext)
 {
 	char* fbuff;
 	unsigned int fpointer = 0;
 	unsigned long long int fnumber = 0;
 	bool longfile = false;
+	size_t read = 0;
 
 	FILEENTRY myfile;
 	FILE* fdata = fopen(file, "rb");
@@ -187,12 +191,12 @@ void InsertFile(char* file, char* dest_pkg, char* name, char* ext)
 	if(fsize > 1048576)
 		longfile = true;
 
-	memset(&myfile.FILENAME.NAME, 0x0, 17);
-	memset(&myfile.FILENAME.EXT, 0x0, 4);
+	memset(&myfile, 0x0, sizeof(FILEENTRY));
 	strcpy(myfile.FILENAME.NAME,name);
 	strcpy(myfile.FILENAME.EXT,ext);
 	myfile.FILESIZE = fsize;
 
+	/* Any file bigger than 1Mb is considered a long file. */
 	if(!longfile)
 	{
 		fbuff = (char*)calloc(fsize, 1);
@@ -203,16 +207,11 @@ void InsertFile(char* file, char* dest_pkg, char* name, char* ext)
 	else{
 		fbuff = (char*)calloc(1048576, 1);
 		unsigned long long int passes = ceil((double)(fsize/1048576));
-		for(unsigned long long int x = 0; x < passes; x++)
+		fpointer = ftell(GPFILE);
+		for(unsigned long long int x = 0; x <= passes; x++)
 		{
-			if(x < passes-1)
-			{
-				fread(fbuff,1,1048576,fdata);
-				fwrite(fbuff, 1, 1048576, GPFILE);
-			}else{
-				fread(fbuff,1,fsize%1048576,fdata);
-				fwrite(fbuff, 1, fsize%1048576, GPFILE);
-			}
+				read = fread(fbuff,1,1048576,fdata);
+				fwrite(fbuff, 1, read, GPFILE);
 		}
 	}
 
@@ -240,7 +239,12 @@ int main(int args, char** argv)
 	CreateDatabase("dbtest", "test");
 	fseek(PDBFILE, 0L, SEEK_SET);
 	InsertFile("fortest\\textfile.txt", "default", "TEXT", "TXT");
-	fclose(PDBFILE);
-	fclose(GPFILE);
+	InsertFile("fortest\\longfile.jpg", "default", "LONGFILE", "JPG");
+	printf("%i",sizeof(DATAPACKAGE));
+	getchar();
+	if(PDBFILE)
+		fclose(PDBFILE);
+	if(GPFILE)
+		fclose(GPFILE);
 	return 0;
 }
