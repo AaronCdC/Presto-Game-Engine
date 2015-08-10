@@ -1,6 +1,30 @@
 /* CURRENTLY UNDER DEVELOPMENT */
-//TODO: Error control
 
+/***********************************************************
+ !  !  !  V E R Y   I M P O R T A N T   N O T E S  !  !  !
+ -----------------------------------------------------------
+						TODO LIST:
+
+1. Some of the functions return objects allocated in the stack.
+These MUST BE modified to return a pointer to an object allocated
+inside the heap (using malloc/calloc).
+
+2. Error control. Lots of error control. These functions assume everything
+is always perfect, which obviously does not have to be the case.
+
+3. The following operations must be implemented: Adding new gpf packages,
+removing packages from the database, removing files from a package, expanding
+a package database
+
+4. Command line operation interface, with switches. Right now the operations
+are hard coded, this is obviously not the intended behaviour.
+
+5. A proper memory manager.
+
+*********** THE CURRENT CODE IS INTENDED FOR TESTING PURPOSES ONLY ***********
+
+***********************************************************/
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,6 +39,8 @@ FILE* PDBFILE;
 FILE* GPFILE;
 
 char* defaultdbname = "\\db.pdb";
+std::vector<char*> bufferlist; //Every array allocated using malloc/calloc is stored here. Makes cleanup easier.
+
 
 /* Simply open a file to use it as a database */
 int OpenDatabase(char* dbpath)
@@ -243,7 +269,6 @@ DATAPACKAGE GetPkgEntryByName(char* pkgname)
 }
 
 /* Routine to get the DP table from it's package ID. */
-/*	-!-!-! U N T E S T E D !-!-!- */
 unsigned int* GetDPTableByPkgId(int Index)
 {
 	unsigned int dpdescriptor[1024];
@@ -254,7 +279,6 @@ unsigned int* GetDPTableByPkgId(int Index)
 }
 
 /* Routine to get the DP table from it's package name. */
-/*	-!-!-! U N T E S T E D !-!-!- */
 unsigned int* GetDPTableByPkgName(char* pkgname)
 {
 	unsigned int dpdescriptor[1024];
@@ -265,10 +289,10 @@ unsigned int* GetDPTableByPkgName(char* pkgname)
 }
 
 /* Routine to get a pointer to a file entry from a package ID and file name. */
-/*	-!-!-! U N T E S T E D !-!-!- */
 FILEENTRY* SearchFileByPkgID(int ID, NAMEENTRY fname)
 {
-	FILEENTRY myFile;
+	FILEENTRY* myFile = (FILEENTRY*)calloc(sizeof(FILEENTRY),1);
+	bufferlist.push_back((char*)myFile);
 	std::vector<int> results;
 	unsigned int* dptable = GetDPTableByPkgId(ID);
 	bool found = false;
@@ -278,19 +302,22 @@ FILEENTRY* SearchFileByPkgID(int ID, NAMEENTRY fname)
 		if(dptable[x] > 0)
 		{
 			fseek(PDBFILE, dptable[x], SEEK_SET);
-			fread(&myFile, sizeof(FILEENTRY), 1, PDBFILE);
-			if(strcmp(myFile.FILENAME.EXT, fname.EXT) == 0)
-				if(myFile.FILENAME.NAME[0] == fname.NAME[0])
+			fread(myFile, sizeof(FILEENTRY), 1, PDBFILE);
+			if(strcmp(myFile->FILENAME.EXT, fname.EXT) == 0)
+				if(myFile->FILENAME.NAME[0] == fname.NAME[0])
 					results.push_back(dptable[x]);
 		}
 	}
 
 
+	if(results.size() == 0)
+		return 0L;
+
 	for(int y = 0; y < results.size(); y++)
 	{
 		fseek(PDBFILE, results[y], SEEK_SET);
-		fread(&myFile, sizeof(FILEENTRY), 1, PDBFILE);
-		if(strcmp(myFile.FILENAME.NAME, fname.NAME) == 0)
+		fread(myFile, sizeof(FILEENTRY), 1, PDBFILE);
+		if(strcmp(myFile->FILENAME.NAME, fname.NAME) == 0)
 		{
 			found = true;
 			break;
@@ -300,9 +327,59 @@ FILEENTRY* SearchFileByPkgID(int ID, NAMEENTRY fname)
 	results.clear();
 
 	if(found)
-		return &myFile;
+		return myFile;
 	else
+	{
+		free(myFile);
 		return 0L;
+	}
+}
+
+/* Routine to get a pointer to a file entry from a package name and file name. */
+FILEENTRY* SearchFileByPkgName(char* pkgnm, NAMEENTRY fname)
+{
+	FILEENTRY* myFile = (FILEENTRY*)calloc(sizeof(FILEENTRY),1);
+	bufferlist.push_back((char*)myFile);
+	std::vector<int> results;
+	unsigned int* dptable = GetDPTableByPkgName(pkgnm);
+	bool found = false;
+
+	for(int x = 0; x < 1024; x++)
+	{
+		if(dptable[x] > 0)
+		{
+			fseek(PDBFILE, dptable[x], SEEK_SET);
+			fread(myFile, sizeof(FILEENTRY), 1, PDBFILE);
+			if(strcmp(myFile->FILENAME.EXT, fname.EXT) == 0)
+				if(myFile->FILENAME.NAME[0] == fname.NAME[0])
+					results.push_back(dptable[x]);
+		}
+	}
+
+
+	if(results.size() == 0)
+		return 0L;
+
+	for(int y = 0; y < results.size(); y++)
+	{
+		fseek(PDBFILE, results[y], SEEK_SET);
+		fread(myFile, sizeof(FILEENTRY), 1, PDBFILE);
+		if(strcmp(myFile->FILENAME.NAME, fname.NAME) == 0)
+		{
+			found = true;
+			break;
+		}
+	}
+
+	results.clear();
+
+	if(found)
+		return myFile;
+	else
+	{
+		free(myFile);
+		return 0L;
+	}
 }
 
 /* Routine to insert a file inside a package file, and update the database */
@@ -383,18 +460,77 @@ void InsertFile(char* file, char* dest_pkg, char* name, char* ext)
 	return;
 }
 
+/* Routine to extract a file to the memory */
+char* ExtractToMemory(FILEENTRY* mfile)
+{
+	char* buffer;
+	buffer = (char*)calloc(1, mfile->FILESIZE);
+	bufferlist.push_back((char*)buffer);
+	fseek(GPFILE, mfile->FPOINTER, SEEK_SET);
+	if(fread(buffer, 1, mfile->FILESIZE, GPFILE) == 0)
+	{
+		free(buffer);
+		return 0L;
+	}
+	return buffer;
+}
+
+/* Routine to extract a file to the hard disk */
+int ExtractToDisk(FILEENTRY* mfile)
+{
+	char* buffer;
+	FILE* temp = fopen(mergeMultipleStrings(3,mfile->FILENAME.NAME, ".", mfile->FILENAME.EXT), "w+b");
+	buffer = (char*)calloc(1, mfile->FILESIZE);
+	bufferlist.push_back((char*)buffer);
+	fseek(GPFILE, mfile->FPOINTER, SEEK_SET);
+	if(fread(buffer, 1, mfile->FILESIZE, GPFILE) == 0)
+	{
+		free(buffer);
+		return -1;
+	}
+	if(fwrite(buffer,1,mfile->FILESIZE,temp) == 0);
+	{
+		free(buffer);
+		return -1;
+	}
+	free(buffer);
+	fclose(temp);
+	return 1;
+}
+
 /* Main function */
 int main(int args, char** argv)
 {
+	char* buff;
 	CreateDatabase("dbtest", "test");
 	fseek(PDBFILE, 0L, SEEK_SET);
-	InsertFile("fortest\\textfile.txt", "test", "TEXT", "TXT");
-	InsertFile("fortest\\longfile.jpg", "test", "LONGFILE", "JPG");
+	InsertFile("fortest\\illyadance.png", "test", "ILLYASPRITES", "PNG");
+	InsertFile("fortest\\background.png", "test", "BACKGROUND", "PNG");
+	InsertFile("fortest\\rave.ogg", "test", "RAVE", "OGG");
+	InsertFile("fortest\\logo.png", "test", "LOGO", "PNG");
 
-	getchar();
+/*	NAMEENTRY fname = MCreateNameEntry("LONGFILE.JPG");
+	FILEENTRY* myfile_ = SearchFileByPkgName("test", fname);
+
+	printf("NAME: %s\n", myfile_->FILENAME.NAME);
+	printf("EXT : %s\n", myfile_->FILENAME.EXT);
+	printf("FSIZ: %u\n", myfile_->FILESIZE);
+	printf("FPTR: %u\n", myfile_->FPOINTER);
+	printf("GPID: %u\n", myfile_->GPFID);
+	printf("FID : %u\n", myfile_->ID);
+
+	buff = ExtractToMemory(myfile_);
+
+	getchar(); */
+
 	if(PDBFILE)
 		fclose(PDBFILE);
 	if(GPFILE)
 		fclose(GPFILE);
+
+	for(int x = 0; x < bufferlist.size(); x++)
+		free(bufferlist[x]);
+	bufferlist.clear();
+	printf("Done.");
 	return 0;
 }

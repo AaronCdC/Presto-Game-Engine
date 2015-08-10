@@ -1,5 +1,6 @@
 /*********************************************************************/
 /*                    - PRESTO: 2D GAME ENGINE -                     */
+/*                     By Aaron C.d.C (c) 2015                       */
 /*                   SOME RIGHTS MAY BE RESERVED                     */
 /*                                                                   */
 /*    This piece of software is freeware and open source. You, under */
@@ -61,9 +62,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <vector>
+#include <malloc.h>
+#include <stdarg.h>
 #include <allegro5/allegro.h>
+#include <allegro5\allegro_memfile.h>
 #include "DEBUGGER\debugger.h"
 #include "RESMANAGER\resmanager.h"
+#include "RESMANAGER\utils.h"
+#include "MEMORYMANAGER\memmanager.h"
 
 /* Global variables to be used in the whole program */
 extern ALLEGRO_DISPLAY* display;

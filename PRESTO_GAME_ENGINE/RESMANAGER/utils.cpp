@@ -1,16 +1,14 @@
 /* Some functions I coded years ago for a C library
 aimed to easily manipulate C strings and paths. */
 
-#include "gpfman.h"
-#include "utils.h"
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include "utils.h"
 
 /* This function get the number of characters
 in a C string, if it's properly formated. */
-size_t getLengthText(char* text)
+size_t HelpUtils::getLengthText(char* text)
 {
 	unsigned int counter = -1;
 	char cChar = 1;
@@ -23,7 +21,7 @@ size_t getLengthText(char* text)
 }
 
 /* C function to merge two strings. */
-char* mergeStrings(char* char1, char* char2)
+char* HelpUtils::mergeStrings(char* char1, char* char2)
 {
 	char* result;
 	size_t c1size = getLengthText(char1);
@@ -37,7 +35,7 @@ char* mergeStrings(char* char1, char* char2)
 }
 
 /* C function to merge multiple, undefined number of strings.*/
-char* mergeMultipleStrings(int args, char* str, ...)
+char* HelpUtils::mergeMultipleStrings(int args, ...)
 {
 	va_list chrstr;
 	char* result;
@@ -62,13 +60,16 @@ char* mergeMultipleStrings(int args, char* str, ...)
 	return result;
 }
 
-NAMEENTRY MCreateNameEntry(char* fname)
+/* Create a NAMEENTRY in the HEAP and return a pointer to it. */
+void* HelpUtils::MCreateNameEntry(char* fname)
 {
-	NAMEENTRY result;
+	NAMEENTRY* result;
 	char* name = (char*)calloc(17,1);
 	char* ext = (char*)calloc(4,1);
 	int tsize = getLengthText(fname), y = 0;
 	bool extm = false;
+
+	result = (NAMEENTRY*)calloc(sizeof(NAMEENTRY),1);
 
 	for(int x = 0; x < tsize; x++)
 	{
@@ -92,11 +93,9 @@ NAMEENTRY MCreateNameEntry(char* fname)
 		}
 			
 	}
-
-	memset(&result, 0x0, sizeof(NAMEENTRY));
 	
-	strcpy(result.NAME, name);
-	strcpy(result.EXT, ext);
+	strcpy(result->NAME, name);
+	strcpy(result->EXT, ext);
 
-	return result;
+	return (void*)result;
 }

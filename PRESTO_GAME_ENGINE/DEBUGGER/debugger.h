@@ -9,6 +9,7 @@
 #include <windows.h>
 #include <gl/gl.h>
 #include <d3d9.h>
+#include <errno.h>
 
 //#define ALLEGRO_STATICLINK
 #include "allegro5/allegro.h"

@@ -14,13 +14,17 @@
     <ClInclude Include="core.h" />
     <ClInclude Include="DEBUGGER\debugger.h" />
     <ClInclude Include="DEBUGGER\instructionset.h" />
+    <ClInclude Include="MEMORYMANAGER\memmanager.h" />
     <ClInclude Include="RESMANAGER\resmanager.h" />
+    <ClInclude Include="RESMANAGER\utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DEBUGGER\debugger.cpp" />
     <ClCompile Include="DEBUGGER\instructionset.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MEMORYMANAGER\memmanager.cpp" />
     <ClCompile Include="RESMANAGER\resmanager.cpp" />
+    <ClCompile Include="RESMANAGER\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PRESTO_GAME_ENGINE.rc" />
@@ -67,6 +71,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\ALLEGRO\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);allegro-5.0.10-monolith-md-debug.lib;opengl32.lib;dbghelp.lib</AdditionalDependencies>
+      <AdditionalOptions>/VERBOSE %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

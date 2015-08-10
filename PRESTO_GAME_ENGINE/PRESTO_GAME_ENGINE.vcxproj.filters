@@ -25,6 +25,9 @@
     <Filter Include="RESMANAGER">
       <UniqueIdentifier>{79e98e47-99f3-4091-b5f1-bab1039282ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MemoryManager">
+      <UniqueIdentifier>{049fb0a5-9785-477c-a420-4e066c274b9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.h">
@@ -39,6 +42,12 @@
     <ClInclude Include="RESMANAGER\resmanager.h">
       <Filter>RESMANAGER</Filter>
     </ClInclude>
+    <ClInclude Include="RESMANAGER\utils.h">
+      <Filter>RESMANAGER</Filter>
+    </ClInclude>
+    <ClInclude Include="MEMORYMANAGER\memmanager.h">
+      <Filter>MemoryManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DEBUGGER\debugger.cpp">
@@ -52,6 +61,12 @@
     </ClCompile>
     <ClCompile Include="RESMANAGER\resmanager.cpp">
       <Filter>RESMANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="RESMANAGER\utils.cpp">
+      <Filter>RESMANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="MEMORYMANAGER\memmanager.cpp">
+      <Filter>MemoryManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

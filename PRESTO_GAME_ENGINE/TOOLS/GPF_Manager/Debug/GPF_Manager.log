@@ -1,0 +1,55 @@
+﻿Build started 07/08/2015 21:28:02.
+     1>Project "C:\Users\CHUCKNORRIS\documents\visual studio 2010\Projects\GPF_Manager\GPF_Manager\GPF_Manager.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\GPF_Manager.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt gpfman.cpp
+         gpfman.cpp
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(25): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(32): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(117): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(118): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(133): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(140): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(209): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(164): warning C4101: 'result' : unreferenced local variable
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(255): warning C4172: returning address of local variable or temporary
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(265): warning C4172: returning address of local variable or temporary
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(293): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(340): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(375): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(386): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(387): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(403): warning C4244: 'initializing' : conversion from 'double' to 'unsigned __int64', possible loss of data
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(419): warning C4244: '=' : conversion from 'unsigned __int64' to 'unsigned int', possible loss of data
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(446): warning C4244: 'argument' : conversion from 'unsigned __int64' to 'long', possible loss of data
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(459): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(462): warning C4244: 'argument' : conversion from 'unsigned __int64' to 'long', possible loss of data
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(469): warning C4390: ';' : empty controlled statement found; is this the intent?
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(508): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\chucknorris\documents\visual studio 2010\projects\gpf_manager\gpf_manager\gpfman.cpp(481): warning C4101: 'buff' : unreferenced local variable
+       Link:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\CHUCKNORRIS\documents\visual studio 2010\Projects\GPF_Manager\Debug\GPF_Manager.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GPF_Manager.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\CHUCKNORRIS\documents\visual studio 2010\Projects\GPF_Manager\Debug\GPF_Manager.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\CHUCKNORRIS\documents\visual studio 2010\Projects\GPF_Manager\Debug\GPF_Manager.lib" /MACHINE:X86 Debug\gpfman.obj
+         Debug\utils.obj
+         LINK : C:\Users\CHUCKNORRIS\documents\visual studio 2010\Projects\GPF_Manager\Debug\GPF_Manager.exe not found or not built by the last incremental link; performing full link
+         GPF_Manager.vcxproj -> C:\Users\CHUCKNORRIS\documents\visual studio 2010\Projects\GPF_Manager\Debug\GPF_Manager.exe
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\CHUCKNORRIS\documents\visual studio 2010\Projects\GPF_Manager\Debug\GPF_Manager.exe;#1" /manifest Debug\GPF_Manager.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug\GPF_Manager.unsuccessfulbuild".
+         Touching "Debug\GPF_Manager.lastbuildstate".
+     1>Done Building Project "C:\Users\CHUCKNORRIS\documents\visual studio 2010\Projects\GPF_Manager\GPF_Manager\GPF_Manager.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.04

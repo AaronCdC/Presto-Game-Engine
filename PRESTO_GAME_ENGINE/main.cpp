@@ -10,6 +10,7 @@ GameDebugger MainDebugger;
 ResourceManager resManager;
 
 ALLEGRO_BITMAP* test;
+ALLEGRO_FILE* memfile;
 
 bool __DEBUG__MODE__;
 
@@ -19,11 +20,32 @@ bool redraw = false;
 bool AudioFail = false;
 bool ImageFail = false;
 
+char* testfile; //FOR TESTING ONLY!!
+NAMEENTRY* tst;
+FILEENTRY* mfile;
+
+/* FOR TESTING ONLY */
 void ResourceLoading()
 {
-	test = resManager.LoadBitmapA("TEST_ASSETS\\nep.png", "Test asset");
+	tst = (NAMEENTRY*)HelpUtils::MCreateNameEntry("ILLYASPRITES.PNG");
+	resManager.OpenResourceDB("TEST_ASSETS");
+	//TODO: Open a package using the information instead of doing it manually.
+	resManager.OpenPackage("TEST_ASSETS\\test.gpf");
+
+	mfile = (FILEENTRY*)resManager.SearchFileByPkgName("test", tst);
+	if(!mfile)
+	{
+		MainDebugger.Log("Error loading ILLYASPRITES.PNG", "Error");
+		return;
+	}
+	testfile = resManager.ExtractToMemory(mfile);
+	memfile = al_open_memfile(testfile, mfile->FILESIZE, "r");
+	test = al_load_bitmap_f(memfile, ".PNG");
 	if(!test)
 		MainDebugger.Log("Error loading test asset.","Error");
+	al_fclose(memfile);
+	MemoryManager::MultiAddToGC(3,tst,mfile,testfile);
+	MemoryManager::Flush();
 	return;
 }
 
@@ -105,6 +127,7 @@ void game_end()
 	}
 	if(!AudioFail){al_destroy_audio_stream(music);}
 	al_destroy_display(display);
+	MemoryManager::Flush();
 	/* End Game Finalization Region */
 	//End game
     MainDebugger.Log("End of the program.", info_type_message);
